@@ -19,6 +19,10 @@ h2. Contents
 * Additional Off/Allowances
 * Monthly Reports - Based on without pay leaves taken, advance & loan cut, tax, swf etc.
 
+Admin can add employee profiles and assign user accounts for each. Then employee can login and apply leave requests.
+
+Only assigned managers can approve the leave requests and view subordinate profile. Without Pay can be approved only by admin.
+
 h2. Database
 
 This application uses MySQL with ActiveRecord.
