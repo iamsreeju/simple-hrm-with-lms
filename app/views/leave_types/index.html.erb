@@ -1,0 +1,59 @@
+<div class="row-fluid">
+  <div class="row-fluid">
+    <div class="span6">
+          <label><strong class="alert-success">Leave Types</strong></label>
+    </div>
+    <div class="span6">
+        <%= link_to 'New Leave type', new_leave_type_path, :class => "btn btn-mini btn-success" %>
+    </div>
+  </div>
+
+  <% if notice %><p id="notice" class="alert alert-info"><%= notice %></p><% end %>
+
+  <table id="table_report" class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>SlNo</th>
+        <th>Leave Type</th>
+        <th class="hidden-480">Without Pay</th>
+        <th>Default Count/Month</th>        
+        <th class="hidden-480">Month Forward</th>
+        <th class="hidden-480">Year Forward</th>
+        <th class="hidden-480">Forwarded Off</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @leave_types.each_with_index do |leave_type, index| %>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= leave_type.leave_type_name %></td>
+          <td class="hidden-480"><%= leave_type.without_pay ? "Yes" : "No" %></td>
+          <td><%= leave_type.without_pay? ? "Nil" : leave_type.default_count %></td>          
+          <td class="hidden-480"><%= leave_type.month_forward ? "Yes" : "No" %></td>
+          <td class="hidden-480"><%= leave_type.year_forward ? "Yes" : "No" %></td>
+          <td class="hidden-480"><%= leave_type.forwarded_off ? "Yes" : "No" %></td>          
+          <td><%= link_to 'Show', leave_type, :class => "btn btn-mini btn-success" %>
+          <%= link_to 'Edit', edit_leave_type_path(leave_type), :class => "btn btn-mini btn-info" %>
+          <%= link_to 'Destroy', leave_type, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-mini btn-danger" if can? :destroy, leave_type %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){ 
+        var oTable1 = $('#table_report').dataTable({
+          <% if @admin_user %>
+          "sDom": 'T<"clear">lfrtip',
+          "oTableTools": {
+              "sSwfPath": "/assets/copy_csv_xls_pdf.swf",
+              "aButtons": [{"sExtends": "pdf", "mColumns": [1, 2, 3, 4, 5, 6]}]
+          },
+          <% end %>
+          "aoColumns": [null, null, null, null, null, null, null, { "bSortable":false }]         
+        });
+    });
+</script>

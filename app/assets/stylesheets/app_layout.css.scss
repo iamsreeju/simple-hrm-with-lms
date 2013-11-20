@@ -1,0 +1,41 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require scaffolds
+ *= require jquery-ui
+ *= require jquery.multiselect
+ *= require ./theme_css/bootstrap.min
+ *= require ./theme_css/bootstrap-responsive.min
+ *= require ./theme_css/font-awesome.min
+ *= require ./theme_css/theme.min
+ *= require ./theme_css/theme-responsive.min
+ *= require TableTools
+ */
+
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Open Sans Light'), local('OpenSans-Light'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+}
+
+.form-inputs textarea{height:100px;}
+.ui-multiselect-checkboxes input[type="radio"], .ui-multiselect-checkboxes input[type="checkbox"]{margin-top: -4px;}
+
+.dataTables_length { float: left; }
+

@@ -1,0 +1,29 @@
+<%= simple_form_for(@worked_holiday, :html => {:class => "form-horizontal"}) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <% if @worked_holiday.new_record? %>
+        <div class="control-group">
+          <label class="control-label">Employees</label>
+          <div class="controls">
+            <%= select_tag "employees[]", options_for_select(User.joins(:employee).map {|user| [user.name, user.id]}, []), :multiple => true, :size => 10, :class => "multi_select_box" %>
+          </div>
+        </div>
+    <% else %>
+          <%= f.association :user, include_blank: false, selected: @employee_page %>
+    <% end %>
+
+    <%= f.input :worked_date, start_year: Date.today.year - 50, end_year: Date.today.year, label: "Date" %>
+    <%#= f.input :full_day %>
+    <%= f.input :additional_off, :label => "Off (days)" %>
+    <%= f.input :additional_pay, :label => "Pay (days)" %>
+    <%= f.input :allowance_amount, :label => "Allowance (Rs)" %>
+
+    <%= hidden_field_tag :employee_page, @employee_page if @employee_page %>
+  </div>
+
+  <div class="form-actions">
+      <%= f.submit "Save", :class => "btn btn-success btn-small" %>
+      <%= link_to 'Back', worked_holidays_path, :class => "btn btn-small" %>
+  </div>
+<% end %>

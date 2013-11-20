@@ -1,0 +1,61 @@
+<div class="row-fluid">
+  <div class="row-fluid">
+    <div class="span6">
+          <label><strong class="alert-success">Leave Status</strong></label>
+    </div>
+    <div class="span6">
+        <%= link_to 'New Leave Status', new_leave_status_path(employee_page: (@employee.user_id if @employee)), :class => "btn btn-mini btn-success" if can? :create, LeaveStatus %>
+    </div>
+    <p id="notice" class="text-info"><%= notice %></p>
+  </div>
+
+  <table id="table_report_status" class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>SlNo</th>
+        <th>Name</th>
+        <th class="hidden-480">Designation</th>
+        <th>Leave Type</th>
+        <th>Available</th>
+        <th>Applied</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @leave_statuses.each_with_index do |leafe, index| %>
+        <% check_data = [67, 107, 101, 59, 100, 58, 88, 84, 61].include?(leafe.user_id) && [2,3,5].include?(leafe.leave_type_id) %>
+
+        <tr <%#= "style='color: red !important;'".html_safe if check_data %> >
+          <td><%= index + 1 %></td>
+          <td><%= leafe.user.profile_link %></td>
+          <td class="hidden-480"><%= leafe.user.designation.designation_name rescue "" %></td>
+          <td><%= leafe.leave_type.leave_type_name %><%= " (Current Month)" unless leafe.leave_type.without_pay || leafe.leave_type.month_forward || leafe.leave_type.year_forward %></td>
+          <td><%= leafe.leave_type.without_pay ? "Nil" : leafe.available %></td>
+          <td><%= LeaveRequest.availability_matrix(leafe, Date.today)[1] %></td>
+          <td>
+            <%#= link_to 'Show', leafe, :class => "btn btn-mini btn-success" %>
+
+            <%= link_to 'Edit', edit_leave_status_path(leafe, employee_page: (@employee.user_id if @employee)), :class => "btn btn-mini btn-info" if can? :update, leafe %>
+
+            <%= link_to 'Delete', leave_status_path(leafe, employee_page: (@employee.user_id if @employee)), method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-mini btn-danger" if can? :destroy, leafe %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){ 
+        var oTable1 = $('#table_report_status').dataTable({
+          <% if @admin_user %>
+          "sDom": 'T<"clear">lfrtip',
+          "oTableTools": {
+              "sSwfPath": "/assets/copy_csv_xls_pdf.swf",
+              "aButtons": [{"sExtends": "pdf", "mColumns": [0, 1, 2, 3, 4, 5]}]
+          },
+          <% end %>
+          "aoColumns": [null, null, null, null, null, null, { "bSortable": false }]
+        });
+    });
+</script>

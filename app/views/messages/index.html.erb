@@ -1,0 +1,55 @@
+<div class="row-fluid">
+  <div class="row-fluid">
+    <div class="span6">
+          <label><strong class="alert-success">Messages</strong></label>
+    </div>
+    <div class="span6">
+        <%= link_to 'New Message', new_message_path, :class => "btn btn-mini btn-success" if can? :create, Message %>
+    </div>
+    <% if notice %>
+        <p id="notice" class="text-info"><%= notice %></p>
+    <% end %>
+  </div>
+
+  <table id="table_report_message" class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>SlNo</th>
+        <th>Title</th>
+        <th>Date</th>
+        <th class="hidden-480">Description</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @messages.each_with_index do |message, index| %>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= message.title %></td>
+          <td><%= message.message_date.strftime("%b %d %Y") if message.message_date %>
+          <td class="hidden-480"><%= message.description %></td>
+          <td>
+            <%= link_to 'Edit', edit_message_path(message), :class => "btn btn-mini btn-info" if can? :update, message %>
+
+            <%= link_to 'Destroy', message_path(message), method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-mini btn-danger" if can? :destroy, message %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){ 
+        var oTable1 = $('#table_report_message').dataTable({
+          <% if @admin_user %>
+          "sDom": 'T<"clear">lfrtip',
+          "oTableTools": {
+              "sSwfPath": "/assets/copy_csv_xls_pdf.swf",
+              "aButtons": [{"sExtends": "pdf", "mColumns": [0, 1, 2, 3]}]
+          },
+          <% end %>
+          "aoColumns": [null, null, null, null, { "bSortable": false }]
+        });
+    });
+</script>

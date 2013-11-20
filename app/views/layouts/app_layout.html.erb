@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Simple HRM + LMS <%= @title if @title %></title>
+
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <%= stylesheet_link_tag "app_layout", :media => "all" %>
+
+    <!--fonts-->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />
+
+    <!--page specific plugin styles-->
+    <%= yield :page_level_plugin_styles %>
+
+     <%= javascript_include_tag "app_layout" %>
+     <%= csrf_meta_tags %>
+</head>
+
+<body class="<%= yield :page_level_body_class %>">
+    <% if current_user %>
+        <%= render :partial => 'layouts/app_content_layout', :locals => {:content => "top_bar"} %>
+
+        <div class="container-fluid" id="main-container">
+            <%= render :partial => 'layouts/app_content_layout', :locals => {:content => "side_bar"} %>
+
+            <div id="main-content" class="clearfix">
+                <%#= render :partial => 'layouts/app_content_layout', :locals => {:content => "breadgrump_and_search"} %>
+
+                <div id="page-content" class="clearfix">                    
+                    <%#= render :partial => 'layouts/app_content_layout', :locals => {:content => "page_header"} %>
+
+                    <div class="row-fluid"><!--PAGE CONTENT BEGINS HERE-->
+                        <%= yield %>
+                        <!--PAGE CONTENT ENDS HERE-->
+                    </div><!--/row-->
+                    
+                </div><!--/#page-content-->
+
+                <%#= render :partial => 'layouts/app_content_layout', :locals => {:content => "skins"} %>
+
+            </div><!--/#main-content-->
+        </div><!--/.fluid-container#main-container-->
+
+        <!-- SCROLL UP TAG STARTS HERE -->
+        <a href="#" id="btn-scroll-up" class="btn btn-small btn-inverse">
+            <i class="icon-double-angle-up icon-only bigger-110"></i>
+        </a><!-- SCROLL UP TAG ENDS HERE -->
+
+    <% else %>
+        <%= yield %>
+    <% end %>
+
+    <!--page specific plugin scripts-->
+    <%= yield :page_level_plugin_scripts %>
+
+    <!--inline scripts related to this page-->
+    <%= yield :page_level_inline_scripts %>
+
+</body>
+
+</html>

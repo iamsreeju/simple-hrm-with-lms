@@ -1,0 +1,96 @@
+<% content_for :page_level_body_class do %>
+    login-layout
+<% end %>
+  
+<div class="container-fluid" id="main-container">
+  <div id="main-content">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="login-container">
+          <div class="row-fluid">
+            <div class="center">
+              <h1>
+                <i class="icon-user green"></i>
+                <span class="red">Simple</span>
+                <span class="white">HRM + LMS</span>
+              </h1>
+              <h4 class="blue"><a href="http://sreejeshkp.com/" target="_blank">&copy;sreejeshkp.com</a></h4>
+            </div>
+          </div>
+
+          <div class="space-6"></div>
+
+          <div class="row-fluid">
+            <div class="position-relative">
+
+
+              <!-- login-box -->
+              <div id="login-box" class="visible widget-box no-border">
+                <div class="widget-body">
+                  <div class="widget-main">
+                    <h4 class="header blue lighter bigger">
+                      <i class="icon-coffee green"></i>
+                      Login
+                    </h4>
+
+                    <div class="space-6"></div>
+
+                    <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+                      <%= content_tag(:div, flash[:error], :id => "flash_error", :class => "alert alert-error") if flash[:error] %>
+                      <%= content_tag(:div, flash[:notice], :id => "flash_notice", :class => "alert alert-error") if flash[:notice] %>
+                      <%= content_tag(:div, flash[:alert], :id => "flash_alert", :class => "alert alert-error") if flash[:alert] %>
+                      <fieldset>
+                        <label>
+                          <span class="block input-icon input-icon-right">
+                            <%= f.email_field :email, :autofocus => true, :class=> "span12",:placeholder=>"Email" %>
+                            <i class="icon-user"></i>
+                          </span>
+                        </label>
+
+                        <label>
+                          <span class="block input-icon input-icon-right">
+                            <%= f.password_field :password, :class => "span12", :placeholder=> "Password" %>
+                            <i class="icon-lock"></i>
+                          </span>
+                        </label>
+
+                        <div class="space"></div>
+
+                        <div class="row-fluid">
+                          <label class="span8">
+                              <% if devise_mapping.rememberable? -%>
+                                  <%= f.check_box :remember_me %>
+                              <% end -%>
+                              <span class="lbl">Remember Me</span>
+                          </label>
+                          <%= button_tag(type: 'submit', class: "span4 btn btn-small btn-primary") do %>
+                              <i class='icon-key'></i> Login
+                          <% end %>                     
+                        </div>
+
+                        <% if flash[:alert] %>
+                            <div class="alert alert-info">
+                              <button type="button" class="close" data-dismiss="alert">
+                                <i class="icon-remove"></i>
+                              </button>
+                                <strong>Forgot password?</strong> Please contact admin.
+                            </div>
+                        <% end %>
+
+                      </fieldset>
+                    <% end %>
+                  </div><!--/widget-main-->
+                </div><!--/widget-body-->
+              </div><!--/login-box-->
+
+            </div><!--/position-relative-->
+          </div>
+        </div>
+      </div><!--/span-->
+    </div><!--/row-->
+  </div>
+</div><!--/.fluid-container-->
+
+
+
+  

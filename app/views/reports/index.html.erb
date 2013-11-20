@@ -1,0 +1,90 @@
+<div class="row-fluid">
+  <div class="row-fluid">
+    <div class="span6">
+          <label><strong class="alert-success">Monthly Reports</strong></label>
+    </div>
+    <div class="span6">
+        <%= link_to 'New Report', new_report_path, :class => "btn btn-mini btn-success" if can?(:create, Report) %>
+    </div>    
+  </div>
+
+  <% if notice %><p id="notice" class="alert alert-info"><%= notice %></p><% end %>
+
+  <table id="table_report_report" class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>SlNo</th>
+        <th>Month</th>
+        <th>Basic</th>
+        <th>Deduct</th>
+        <th>Leaves</th>
+        <th>Cut</th>
+        <th>Loan</th>
+        <th>Advance</th>
+        <th>Allowance</th>
+        <th>Total</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @reports.each_with_index do |report, index| %>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= report.proper_month %></td>
+          <% if @admin_user %>
+            <td><%= "%0.2f" % report.report_lines.sum(:report_basic) %></td>
+            <td><%= "%0.2f" % report.report_lines.sum(:report_deduct) %></td>
+            <!-- <td><%#= "%0.2f" % report.report_lines.sum(:report_salary) %></td> -->
+            <td><%= report.report_lines.sum(:report_leave_count) %></td>
+            <td><%= "%0.2f" % report.report_lines.sum(:report_leave_cut) %></td>
+            <td><%= "%0.2f" % report.report_lines.sum(:report_loan_cut) %></td>
+            <td><%= "%0.2f" % report.report_lines.sum(:report_advance_cut) %></td>
+            <td><%= "%0.2f" % report.report_lines.sum(:report_allowance) %></td>
+            <td><%= "%0.2f" % report.report_lines.sum(:report_total) %></td>
+          <% else %>
+            <% report_line = report.report_lines.find_by_user_id(current_user.id) %>
+            <% report_line = ReportLine.new unless report_line %>
+            <td><%= "%0.2f" % report_line.report_basic %></td>
+            <td><%= "%0.2f" % report_line.report_deduct %></td>
+            <!-- <td><%#= "%0.2f" % report_line.report_salary %></td> -->
+            <td><%= report_line.report_leave_count %></td>
+            <td><%= "%0.2f" % report_line.report_leave_cut %></td>
+            <td><%= "%0.2f" % report_line.report_loan_cut %></td>
+            <td><%= "%0.2f" % report_line.report_advance_cut %></td>
+            <td><%= "%0.2f" % report_line.report_allowance %></td>
+            <td><%= "%0.2f" % report_line.report_total %></td>
+          <% end %>          
+          <td>
+            <%= link_to 'Contents', report_report_lines_path(report), :class => "btn btn-mini btn-success" if can?(:update, report) && report.report_status != "created" %>
+
+            <%= link_to 'Delete', report, :confirm => 'Are you sure?', :method => :delete, :class => "btn btn-mini btn-danger" if can?(:update, report) && report.report_status != "loans closed" && report.report_status != "leaves closed" %>
+
+            <%= link_to 'Process', edit_report_path(report, date: report.report_date, :confirm => 'Are you sure about processing report?', type: "process"), :class => "btn btn-mini btn-success" if can?(:update, report) && report.report_status == "created" %> 
+
+            <%= "<p></p>".html_safe if can?(:update, report) && ["processed", "loans closed"].include?(report.report_status) %>
+
+            <%= link_to 'Close Report', edit_report_path(report, date: report.report_date, type: "loans"), :confirm => 'Are you sure about closing report?', :class => "btn btn-mini btn-danger" if can?(:update, report) && report.report_status == "processed" %>
+
+            <%= link_to 'Close Leaves', edit_report_path(report, date: report.report_date, type: "leaves"), :confirm => 'Are you sure about closing leaves?', :class => "btn btn-mini btn-danger" if can?(:update, report) && report.report_status == "loans closed" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){ 
+        var oTable1 = $('#table_report_report').dataTable({
+          "sDom": 'T<"clear">lfrtip',
+          "oTableTools": {
+              "sSwfPath": "/assets/copy_csv_xls_pdf.swf",
+              "aButtons": [{"sExtends": "pdf", "mColumns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]}]
+          },
+          "aoColumns": [null, null, null, null, null, null, null, null, null, null, { "bSortable": false }]          
+        });
+    });
+
+
+</script>

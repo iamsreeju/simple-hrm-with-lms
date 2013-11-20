@@ -1,0 +1,185 @@
+<% case(content) %>	
+<% when "top_bar" %>
+	<div class="navbar navbar-inverse">
+	   <div class="navbar-inner">
+	      <div class="container-fluid">
+	         <a href="#" class="brand">
+	            <small>
+	               <i class="icon-leaf"></i>
+	               Simple HRM + LMS
+	            </small>
+	         </a><!--/.brand-->
+
+	         <ul class="nav ace-nav pull-right">
+	            <li class="purple">
+	               <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+	                  <i class="icon-bell-alt icon-only icon-animated-bell"></i>
+	                  <span class="badge badge-important"><%= @notifications[:total] %></span>
+	               </a>
+
+	               <ul class="pull-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-closer">
+	                  <li class="nav-header">
+	                     <i class="icon-warning-sign"></i>
+	                     <%= @notifications[:total] %> Notifications
+	                  </li>
+
+	                  <li>
+	                     <a href="<%= leave_requests_path%>">
+	                        <div class="clearfix">
+	                           <span class="pull-left">
+	                              <i class="btn btn-mini no-hover btn-pink icon-comment"></i>
+	                              Pending Leave Requests
+	                           </span>
+	                           <span class="pull-right badge badge-info"><%= @notifications[:pending] %></span>
+	                        </div>
+	                     </a>
+	                  </li>	                  
+	               </ul>
+	            </li>
+
+	            <li class="light-blue user-profile">
+	               <a data-toggle="dropdown" href="#" class="user-menu dropdown-toggle">
+	                  <img class="nav-user-photo" src="/assets/avatars/avatar2.png" alt="Jason's Photo" />
+	                  <span id="user_info">
+	                     <small>Welcome,</small>
+	                     <%= current_user.name %>
+	                  </span>
+
+	                  <i class="icon-caret-down"></i>
+	               </a>
+
+	               <ul class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer" id="user_menu">
+                    <% if current_user.employee %>
+                      <li>
+                         <a href="<%= employee_path(current_user.employee) %>">
+                            <i class="icon-user"></i>
+                            My profile
+                         </a>
+                      </li>
+                    <% end %>
+
+	                  <li>
+	                     <a href="<%= edit_user_registration_path %>">
+	                        <i class="icon-cog"></i>
+	                        Settings
+	                     </a>
+	                  </li>
+
+	                  <li class="divider"></li>
+
+	                  <li>
+	                     <a href="<%= destroy_user_session_path %>" data-method="delete">
+	                     		<i class="icon-off"></i>
+	                        	Logout
+	                      </a>
+	                  </li>
+	               </ul>
+	            </li>
+	         </ul><!--/.ace-nav-->
+	      </div><!--/.container-fluid-->
+	   </div><!--/.navbar-inner-->
+	</div>
+	<!-- ################## End Top Bar #################### -->
+
+
+<% when "side_bar" %>
+	<a id="menu-toggler" href="#">
+        <span></span>
+    </a>
+	<div id="sidebar">
+      <div id="sidebar-collapse">
+         <i class="icon-double-angle-left"></i>
+      </div>
+      
+      <ul class="nav nav-list">
+          <% @menus.each do |key, menu| %>
+          <li class="<%= menu[:active] %>">
+                <% if menu[:type] == "single" %>
+                      <a href="<%= menu[:path] %>"><i class="icon-<%= menu[:icon] %>"></i><span><%= menu[:name] %></span></a>
+
+                <% else %>
+                      <a class="dropdown-toggle" href="<%= menu[:path] %>">
+                         <i class="icon-<%= menu[:icon] %>"></i><span><%= menu[:name] %></span><b class="arrow icon-angle-down"></b>
+                      </a>
+
+                      <ul class="submenu">
+                        <% menu[:sub_menu].each do |sub_menu| %>
+                           <li><a href="<%= sub_menu[:path] %>"><i class="icon-double-angle-right"></i><%= sub_menu[:name] %></a></li>
+                        <% end %>
+                      </ul>
+                <% end %>
+          </li>
+          <% end %>
+      </ul><!--/.nav-list-->      
+   </div>
+   <!-- ################## End Side Bar #################### -->
+
+<% when "skins" %>
+	<div id="ace-settings-container">
+     	<div class="btn btn-app btn-mini btn-warning" id="ace-settings-btn">
+            <i class="icon-cog"></i>
+ 		</div>
+
+     	<div id="ace-settings-box">
+            <div>
+               <div class="pull-left">
+                  <select id="skin-colorpicker" class="hidden">
+                     <option data-class="default" value="#438EB9">#438EB9</option>
+                     <option data-class="skin-1" value="#222A2D">#222A2D</option>
+                     <option data-class="skin-2" value="#C6487E">#C6487E</option>
+                     <option data-class="skin-3" value="#D0D0D0">#D0D0D0</option>
+                  </select>
+               </div>
+               <span>&nbsp; Choose Skin</span>
+            </div>
+
+            <div>
+               <input type="checkbox" class="ace-checkbox-2" id="ace-settings-header" />
+               <label class="lbl" for="ace-settings-header"> Fixed Header</label>
+            </div>
+
+            <div>
+               <input type="checkbox" class="ace-checkbox-2" id="ace-settings-sidebar" />
+               <label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
+            </div>
+     	</div>
+  	</div><!--/#ace-settings-container-->
+  	<!-- ################## End Skins #################### -->
+
+<% when "breadgrump_and_search" %>
+  <div id="breadcrumbs">
+     	<ul class="breadcrumb">
+            <li>
+               <i class="icon-home"></i>
+               <a href="#">Home</a>
+
+               <span class="divider">
+                  <i class="icon-angle-right"></i>
+               </span>
+            </li>
+            <li class="active">Dashboard</li>
+        </ul><!--.breadcrumb-->
+
+        <div id="nav-search">
+            <form class="form-search">
+               <span class="input-icon">
+                  <input type="text" placeholder="Search ..." class="input-small search-query" id="nav-search-input" autocomplete="off" />
+                  <i class="icon-search" id="nav-search-icon"></i>
+               </span>
+            </form>
+        </div><!--#nav-search-->
+  	</div>
+	<!-- ################## End Breadgrump and Search #################### -->
+
+<% when "page_header" %>
+	<div class="page-header position-relative">
+        <h1>
+           Dashboard
+        </h1>
+ 	</div><!--/.page-header-->
+	<!-- ################## End Page Header #################### -->
+
+
+<% else %>
+	
+<% end %>

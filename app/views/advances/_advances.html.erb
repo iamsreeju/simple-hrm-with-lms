@@ -1,0 +1,16 @@
+<div class="row-fluid">
+  <div class="row-fluid">
+    <div class="span6">
+      <label><strong class="alert-success">Advances/Credits</strong></label>
+    </div>
+    <div class="span6">
+        <%= link_to 'New Advance/Credit', new_advance_path(employee_page: (@employee.user_id if @employee)), :class => "btn btn-mini btn-success" if can? :create, Advance %>
+    </div>
+  </div>
+
+  <% if notice %><p id="notice" class="alert alert-info"><%= notice %></p><% end %>
+
+  <%= render :partial => "advances/advances_list", locals: {advances: @advances, status: "current"} if @advances %>
+
+  <%= render :partial => "advances/advances_list", locals: {advances: @previous_advances, status: "previous"} if @previous_advances %>
+</div>

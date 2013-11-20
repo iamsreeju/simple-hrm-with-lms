@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @report_line.user %>
+</p>
+
+<p>
+  <b>Report salary:</b>
+  <%= @report_line.report_salary %>
+</p>
+
+<p>
+  <b>Report leave count:</b>
+  <%= @report_line.report_leave_count %>
+</p>
+
+<p>
+  <b>Report leave cut:</b>
+  <%= @report_line.report_leave_cut %>
+</p>
+
+<p>
+  <b>Report loan cut:</b>
+  <%= @report_line.report_loan_cut %>
+</p>
+
+<p>
+  <b>Report advance cut:</b>
+  <%= @report_line.report_advance_cut %>
+</p>
+
+<p>
+  <b>Report allowance:</b>
+  <%= @report_line.report_allowance %>
+</p>
+
+<p>
+  <b>Report total:</b>
+  <%= @report_line.report_total %>
+</p>
+
+
+<%= link_to 'Edit', edit_report_report_line_path(@report_line.report, @report_line) %> |
+<%= link_to 'Back', report_report_lines_path(@report_line.report) %>

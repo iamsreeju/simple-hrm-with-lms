@@ -1,0 +1,120 @@
+<p></p>
+<% if notice %><p id="notice" class="alert alert-info"><%= notice %></p><% end %>
+
+<div class="row-fluid span8">
+<!--   <div class="label label-large label-info arrowed-in arrowed-right">
+        <b>Employee Info</b>
+  </div> -->
+  <table class="table table-striped table-bordered table-hover">
+    <tbody>
+        <tr>
+            <td class="span2">Name :</td>
+            <td class="span5"><%= @employee.employee_name %></td>
+        </tr>
+
+        <tr>
+            <td class="span2">Email :</td>
+            <td class="span5"><%= @employee.email %></td>
+        </tr>
+
+        <tr>
+            <td class="span2">Designation :</td>
+            <td class="span5"><%= @employee.designation.designation_name %></td>
+        </tr>
+
+        <tr>
+            <td class="span2">Joined at :</td>
+            <td class="span5"><%= @employee.joined_at.strftime("%d-%m-%Y") %></td>
+        </tr>
+
+        <tr>
+            <td class="span2">DOB :</td>
+            <td class="span5"><%= @employee.dob.strftime("%d-%m-%Y") %></td>
+        </tr>
+
+        <tr>
+            <td class="span2">Address :</td>
+            <td class="span5"><%= @employee.address %></td>
+        </tr>
+
+        <tr>
+            <td class="span2">Land No:</td>
+            <td class="span5"><%= @employee.land_no %></td>
+        </tr>
+
+        <tr>
+            <td class="span2">Mobile No :</td>
+            <td class="span5"><%= @employee.mobile_no %></td>
+        </tr>
+
+        <tr>
+            <td class="span2">Resigned :</td>
+            <td class="span5"><%= @employee.resigned ? "Yes" : "No" %></td>
+        </tr>
+
+        <% if @employee.resigned %>
+          <tr>
+              <td class="span2">Resigned at :</td>
+              <td class="span5"><%= @employee.resigned_at.strftime("%d-%m-%Y") %></td>
+          </tr>
+        <% end %>
+
+        <tr>
+            <td class="span2">Qualifications :</td>
+            <td class="span5"><%= @employee.qualifications %></td>
+        </tr>
+
+        <% if @admin_user || current_user == @employee.user %>
+            <tr>
+                <td class="span2">Basic Salary :</td>
+                <td class="span5"><%= @employee.basic_salary %></td>
+            </tr>
+
+            <tr>
+                <td class="span2">ESI :</td>
+                <td class="span5"><%= @employee.esi %></td>
+            </tr>
+
+            <tr>
+                <td class="span2">PF :</td>
+                <td class="span5"><%= @employee.pf %></td>
+            </tr>
+
+            <tr>
+                <td class="span2">KLWF :</td>
+                <td class="span5"><%= @employee.klwf %></td>
+            </tr>
+
+            <tr>
+                <td class="span2">SWF :</td>
+                <td class="span5"><%= @employee.swf %></td>
+            </tr>
+
+            <tr>
+                <td class="span2">Total SWF :</td>
+                <td class="span5"><%= @employee.total_swf %></td>
+            </tr>
+
+             <tr>
+                <td class="span2">Tax :</td>
+                <td class="span5"><%= @employee.tax %></td>
+            </tr>
+
+             <tr>
+                <td class="span2">Salary :</td>
+                <td class="span5"><%= @employee.salary %></td>
+            </tr>
+        <% end %>
+
+        <tr>
+            <td class="span2">Managers :</td>
+            <td class="span5"> <%= @employee.user.my_managers.collect(&:name).join(", ") %></td>
+        </tr>
+    </tbody>
+  </table>
+
+   <div class="form-actions">
+    <%= link_to 'Edit', edit_employee_path(@employee), :class => "btn btn-small btn-success" if can? :update, @employee %>
+    <%#= link_to 'Back', employees_path, :class => "btn btn-small" %>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="row-fluid">
+	<label><strong class="alert-success">Loan</strong></label>	
+	<div class="hr hr32 hr-dotted"></div>
+
+	<p id="notice"><%= notice %></p>
+
+	<p class="text-info row-fluid">
+	  <b class="span2">Name:</b>
+	  <%= @loan.user.name %>
+	</p>
+
+	<p class="text-info row-fluid">
+		<b class="span2">Designation:</b>
+		<%= @memo.user.designation.designation_name rescue "" %>
+	</p>
+
+	<p class="text-info row-fluid">
+	  <b class="span2">Amount:</b>
+	  <%= @loan.amount %>
+	</p>
+
+	<p class="text-info row-fluid">
+	  <b class="span2">Monthly cut:</b>
+	  <%= @loan.monthly_cut %>
+	</p>
+
+	<p class="text-info row-fluid">
+	  <b class="span2">Balance:</b>
+	  <%= @loan.balance %>
+	</p>
+	<div class="form-actions">
+		<%= link_to 'Edit', edit_loan_path(@loan), :class => "btn btn-small btn-success" if can? :update, @loan %>
+		<%= link_to 'Back', loans_path, :class => "btn btn-small" %>
+	</div>
+</div>

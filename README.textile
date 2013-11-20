@@ -1,0 +1,36 @@
+h1. Simple HRM + LMS
+
+Uses Rails 3, Ruby 2.0, MySQL, Twitter Bootstrapper, Devise, Cancan, RoleModel etc.
+
+<a href="">Demo in Heroku</a>
+
+Credentials : admin@hrm.com / 12345678
+
+h2. Contents
+
+* Departments
+* Designations
+* Leave Types
+* Employee Profiles
+* Leave Statuses
+* Leave Requests
+* Advances
+* Loans
+* Additional Off/Allowances
+* Monthly Reports - Based on without pay leaves taken, advance & loan cut, tax, swf etc.
+
+h2. Database
+
+This application uses MySQL with ActiveRecord.
+
+h2. Development
+
+* Template Engine: ERB
+* Front-end Framework: Twitter Bootstrap (Sass)
+* Form Builder: SimpleForm
+* Authentication: Devise
+* Authorization: CanCan
+
+h2. Configure
+
+Set departments, designations and leave types as the requirements.

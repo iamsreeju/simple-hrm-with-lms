@@ -1,0 +1,17 @@
+<div class="row-fluid">
+  <div class="row-fluid">
+    <div class="span6">
+        <label><strong class="alert-success">Allowance/Off</strong></label>
+    </div>
+    <div class="span6">
+        <%= link_to 'New Worked Holiday', new_worked_holiday_path(employee_page: (@employee.user_id if @employee)), :class => "btn btn-mini btn-success" if can? :create, WorkedHoliday %>
+    </div>
+    <p id="notice" class="text-info"><%= notice %></p>
+  </div>
+
+  <%= render :partial => "worked_holidays/worked_holidays_list", locals: {worked_holidays: @worked_holidays, status: "current"} if @worked_holidays %>
+
+  <%= render :partial => "worked_holidays/worked_holidays_list", locals: {worked_holidays: @previous_worked_holidays, status: "previous"} if @previous_worked_holidays %>
+    
+</div>
+

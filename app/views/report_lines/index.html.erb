@@ -1,0 +1,71 @@
+<div class="row-fluid">
+  <div class="row-fluid">
+    <div class="span6">
+          <label>
+            <strong class="alert-success">Report <%= @report.proper_month %></strong>            
+          </label>
+    </div>
+    <div class="span6">
+        <%= link_to 'Add New', new_report_report_line_path(@report), :class => "btn btn-mini btn-success" %>
+
+        <%= link_to 'Back', reports_path, :class => "btn btn-mini btn-success" %>
+    </div>    
+  </div>
+
+  <% if notice %><p id="notice" class="alert alert-info"><%= notice %></p><% end %>
+
+  <table id="table_report_contents" class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>SlNo</th>
+        <th>Employee</th>
+        <!-- <th>Department</th> -->
+        <th>Basic</th>
+        <th>Deduct</th>
+        <th>Leaves</th>
+        <th>Cut</th>
+        <th>Loan</th>
+        <th>Advance</th>
+        <th>Allowance</th>
+        <th>Total</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+        <% @report_lines.each_with_index do |report_line, index| %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= report_line.user.profile_link %></td>
+            <!-- <td class="hidden-480"><%#= report_line.user.designation.department.department_name rescue "" %></td> -->
+            <td><%= "%0.2f" % report_line.report_basic %></td>
+            <td><%= "%0.2f" % report_line.report_deduct %></td>
+            <!-- <td><%#= "%0.2f" % report_line.report_salary %></td> -->
+            <td><%= report_line.report_leave_count %></td>
+            <td><%= "%0.2f" % report_line.report_leave_cut %></td>
+            <td><%= "%0.2f" % report_line.report_loan_cut %></td>
+            <td><%= "%0.2f" % report_line.report_advance_cut %></td>
+            <td><%= "%0.2f" % report_line.report_allowance %></td>
+            <td><%= "%0.2f" % report_line.report_total %></td>
+            <td>
+              <%= link_to 'Edit', edit_report_report_line_path(report_line.report, report_line), :class => "btn btn-mini btn-info" %>
+              <%= link_to 'Delete', [report_line.report, report_line], :confirm => 'Are you sure?', :method => :delete, :class => "btn btn-mini btn-danger" %>
+            </td>
+          </tr>
+        <% end %>
+    </tbody>
+  </table>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){ 
+        var oTable1 = $('#table_report_contents').dataTable({
+          "sDom": 'T<"clear">lfrtip',
+          "oTableTools": {
+              "sSwfPath": "/assets/copy_csv_xls_pdf.swf",
+              "aButtons": [{"sExtends": "pdf", "mColumns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]}]
+          },
+          "aoColumns": [null, null, null, null, null, null, null, null, null, null, { "bSortable": false }]          
+        });
+    });
+</script>

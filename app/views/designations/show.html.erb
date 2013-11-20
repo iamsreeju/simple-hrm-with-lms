@@ -1,0 +1,25 @@
+<p></p>
+<% if notice %><p id="notice" class="alert alert-info"><%= notice %></p><% end %>
+
+<div class="row-fluid span8">
+	<div class="label label-large label-info arrowed-in arrowed-right">
+	    	<b>Designation Info</b>
+	</div>
+	<table class="table table-striped table-bordered table-hover">
+		<tbody>
+			<tr>
+		      	<td class="span2">Department Name :</td>
+		      	<td class="span5"><%= @designation.department.department_name %></td>
+		    </tr>
+		    <tr>
+		      	<td class="span2">Designation Name :</td>
+		      	<td class="span5"><%= @designation.designation_name %></td>
+		    </tr>
+		</tbody>
+	</table>
+
+	<div class="form-actions">
+		<%= link_to 'Edit', edit_designation_path(@designation), :class => "btn btn-small btn-success" %>
+		<%= link_to 'Back', designations_path, :class => "btn btn-small" %>
+	</div>
+</div>

@@ -1,0 +1,103 @@
+<%= simple_form_for(@employee, :html => {:id => "form_for_employee", :class => "form-horizontal"}) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">    
+    <%= f.input :employee_name %>
+    <%= f.input :email %>
+    <%= f.association :designation, label_method: :designation_name, value_method: :id, include_blank: false %>
+    <%= f.input :joined_at, start_year: Date.today.year - 100, end_year: Date.today.year %>
+    <%= f.input :dob, start_year: Date.today.year - 100, end_year: Date.today.year - 18 %>
+    <%= f.input :address %>
+    <%= f.input :land_no %>
+    <%= f.input :mobile_no %>
+    <%= f.input :resigned %>
+    <div id="emp_resigned_date" class="control-group" <% if !@employee.resigned %>style="display:none"<% end %>>
+        <%= f.input :resigned_at, start_year: Date.today.year - 100, end_year: Date.today.year %>
+    </div>
+    <%= f.input :qualifications %>
+    <%= f.input :basic_salary %>
+    <%= f.input :esi %>
+    <%= f.input :pf %>
+    <%= f.input :klwf %>
+    <%= f.input :tax %>
+    <%= f.input :swf %>
+    <%= f.input :total_swf %>    
+    <%= f.input :salary %>
+    <div class="control-group">
+      <label class="control-label">Managers</label>
+      <div class="controls">
+        <%= select_tag "employee[manager_id][]", options_for_select(User.all.map {|user| [user.name, user.id]}, @employee.user ? @employee.user.my_managers.collect(&:id) : []), :multiple => true, :size => 10, :class => "multi_select_box" %>
+      </div>
+    </div>
+
+    <div class="control-group" id="password_div">
+      <label class="control-label">Password (Only if new/changed, minimum <strong>8</strong> characters)</label>
+      <div class="controls">
+          <%= password_field_tag :password %>
+          <span class="help-inline"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions">
+      <%= f.submit "Save", :class => "btn btn-success" %>
+      <%= link_to 'Cancel', employees_path, :class => "btn btn-small" %>
+  </div>
+<% end %>
+
+
+<script type="text/javascript">
+  $(document).ready(function(){ 
+    $("#password").val("");
+
+    $("#employee_resigned").click(function(){
+        $("#emp_resigned_date").toggle();
+    });
+
+    $("#employee_employee_name").change(function(){
+        $("#employee_email").val($("#employee_employee_name").val().split(' ')[0] + "@gmail.com");
+    });
+
+    $("#form_for_employee").submit(function(){
+      if($("#password").val() != "" && $("#password").val().length < 8){
+        $("#password").focus();
+        $("#password_div").addClass("error");
+        alert("Password needed 8 chars! Otherwise keep blank to use default.");
+        return false;              
+      }        
+    });
+
+    $("#employee_basic_salary").change(function(){
+            calculate_total();
+    });
+
+    $("#employee_esi").change(function(){
+            calculate_total();
+    });
+
+    $("#employee_pf").change(function(){
+            calculate_total();
+    });
+
+    $("#employee_klwf").change(function(){
+            calculate_total();
+    });
+
+    $("#employee_tax").change(function(){
+            calculate_total();
+    });
+
+    $("#employee_swf").change(function(){
+            calculate_total();
+    });
+  });
+
+  function calculate_total(){
+        var total_salary = parseFloat($("#employee_basic_salary").val(), 10) - parseFloat($("#employee_esi").val(), 10) - parseFloat($("#employee_pf").val(), 10) - parseFloat($("#employee_klwf").val(), 10) - parseFloat($("#employee_tax").val(), 10) - parseFloat($("#employee_swf").val(), 10);
+
+        if(isNaN(total_salary) == false)
+            $("#employee_salary").val(total_salary.toFixed(2));
+        else
+            $("#employee_salary").val("");
+    }
+</script>

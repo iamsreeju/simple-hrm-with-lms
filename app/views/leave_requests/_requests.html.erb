@@ -1,0 +1,22 @@
+<div class="row-fluid">
+    <div class="span6">
+      <label><strong class="alert-success">Leaves</strong></label>
+    </div>
+    <div class="span6 center">
+        <%= link_to 'New Leave', new_leave_request_path(employee_page: (@employee.user_id if @employee)), :class => "btn btn-mini btn-success" unless params[:history] %>
+
+        <%= link_to 'History', leave_requests_path(history: true), :class => "btn btn-mini btn-success" if params[:history].nil? && params[:show_history] %>
+
+        <%= link_to 'Back', leave_requests_path, :class => "btn btn-mini btn-success" if params[:history] %>
+    </div>   
+</div>
+
+<% if notice %>
+    <p id="notice" class="alert alert-info"><%= notice %></p>
+<% end %>
+
+<%= render :partial => 'leave_requests/leave_requests', locals: {leave_requests: @pending_requests, status: "pending"} if @pending_requests %>
+
+<%= render :partial => 'leave_requests/leave_requests', locals: {leave_requests: @accepted_requests, status: "accepted"} if @accepted_requests %>
+
+<%= render :partial => 'leave_requests/leave_requests', locals: {leave_requests: @previous_requests, status: "historical"} if @previous_requests %>

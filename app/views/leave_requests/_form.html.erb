@@ -1,0 +1,34 @@
+<%= simple_form_for(@leave_request, :html => {:class => "form-horizontal"}) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%# if current_user.has_role? :admin %>
+        <%#= f.association :user, include_blank: false %>
+    <%# else %>
+        <%#= f.hidden_field :user_id, :value => current_user.id %>
+    <%# end %>
+
+    <%= f.association :user, include_blank: false, collection: User.where("id in (?) or id = ?", current_user.my_subordinates(&:id), current_user.id).where("id != 1"), selected: @employee_page %>
+
+    <%= f.association :leave_type, include_blank: false, value_method: :id, label_method: :leave_type_name %>
+
+    <%= f.input :leave_at, as: :date, start_year: Date.today.year, end_year: Date.today.year.next, order: [:day, :month, :year] %>
+
+    <%= f.input :full_day %>
+    <%= f.input :reason %>
+
+    <%= hidden_field_tag :employee_page, @employee_page if @employee_page %>
+  </div>
+
+  <div class="form-actions">
+      <%= f.submit "Save", :class => "btn btn-success" %>
+      <%= link_to 'Back', leave_requests_path, :class => "btn btn-small" %>
+  </div>
+<% end %>
+
+
+
+
+
+
+ 

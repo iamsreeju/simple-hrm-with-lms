@@ -1,0 +1,19 @@
+<%= simple_form_for(@leave_type, :html => {:class => "form-horizontal"}) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :leave_type_name %>
+    <%= f.input :without_pay %>
+    <div id="hide_without_pay_leave" style="<%= "display:none;" if @leave_type && @leave_type.without_pay == true %>">
+        <%= f.input :default_count, label: 'Default Count/Month' %>
+        <%= f.input :month_forward %>
+        <%= f.input :year_forward %>
+        <%= f.input :forwarded_off %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+      <%= f.submit "Save", :class => "btn btn-success" %>
+      <%= link_to 'Cancel', leave_types_path, :class => "btn" %>
+  </div>
+<% end %>

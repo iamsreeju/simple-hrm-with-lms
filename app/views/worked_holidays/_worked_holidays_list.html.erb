@@ -1,0 +1,57 @@
+<div class="row-fluid">
+  <span class="btn btn-small btn-info"><strong><%= status.titlecase %> Allowance/Off</strong></span>
+
+  <p></p>
+
+  <table id="table_report_additional_<%= status %>" class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Sl No</th>
+        <th>Name</th>
+        <th class="hidden-480">Designation</th>
+        <th>Date</th>
+        <!-- <th>Duration</th> -->
+        <th>Off (Days)</th>
+        <th>Pay (Days)</th>
+        <th>Allowance (Rs)</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% worked_holidays.each_with_index do |holiday, index| %>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= holiday.user.profile_link %></td>
+          <td class="hidden-480"><%= holiday.user.designation.designation_name rescue "" %></td>
+          <td><%= holiday.worked_date.strftime("%d-%m-%Y") %></td>
+          <!-- <td><%#= holiday.full_day ? "Full Day" : "Half Day" %></td> -->
+          <td><%= holiday.additional_off %></td>
+          <td><%= holiday.additional_pay %></td>
+          <td><%= holiday.allowance_amount %></td>
+          <td>
+            <%#= link_to 'Show', holiday, :class => "btn btn-mini btn-success" %>
+            
+            <%= link_to 'Edit', edit_worked_holiday_path(holiday, employee_page: (@employee.user_id if @employee)), :class => "btn btn-mini btn-info" if can? :update, holiday %>
+            
+            <%= link_to 'Destroy', worked_holiday_path(holiday, employee_page: (@employee.user_id if @employee)), method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-mini btn-danger" if can? :destroy, holiday %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){ 
+        var oTable1 = $('#table_report_additional_<%= status %>').dataTable({
+          <% if @admin_user %>
+          "sDom": 'T<"clear">lfrtip',
+          "oTableTools": {
+              "sSwfPath": "/assets/copy_csv_xls_pdf.swf",
+              "aButtons": [{"sExtends": "pdf", "mColumns": [0, 1, 2, 3, 4, 5, 6]}]
+          },
+          <% end %>
+          "aoColumns": [null, null, null, null, null, null, null, { "bSortable": false }]
+        });
+    });
+</script>

@@ -1,0 +1,82 @@
+<%= simple_form_for([@report_line.report, @report_line]) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.association :user, include_blank: false %>
+    <%= f.input :report_basic, label: "Basic" %>
+    <%= f.input :report_deduct, label: "Deduct" %>
+    <%= f.input :report_salary, label: "Salary" %>
+    <%= f.input :report_leave_count, label: "Leave Count" %>
+    <%= f.input :report_leave_cut, label: "Cut" %>
+    <%= f.input :report_loan_cut, label: "Loan" %>
+    <%= f.input :report_advance_cut, label: "Advance" %>
+    <%= f.input :report_allowance, label: "Allowance" %>
+    <%= f.input :report_total, disabled: true %>
+  </div>
+
+  <div class="form-actions">
+      <%= f.button :submit, :class => "btn btn-success" %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+    $(document).ready(function(){ 
+        $("#report_line_report_basic").change(function(){
+            calculate_total();
+        });
+
+        $("#report_line_report_deduct").change(function(){
+            calculate_total();
+        });
+
+        $("#report_line_report_salary").change(function(){
+            calculate_total();
+        });
+
+        $("#report_line_report_leave_count").change(function(){
+            calculate_total();
+        });
+
+        $("#report_line_report_leave_cut").change(function(){
+            calculate_total();
+        });
+
+        $("#report_line_report_loan_cut").change(function(){
+            calculate_total();
+        });
+
+        $("#report_line_report_advance_cut").change(function(){
+            calculate_total();
+        });
+
+        $("#report_line_report_allowance").change(function(){
+            calculate_total();
+        });
+    });    
+
+
+    function calculate_total(){
+        var report_salary = parseFloat($("#report_line_report_basic").val(), 10) - parseFloat($("#report_line_report_deduct").val(), 10);
+
+        if(isNaN(report_salary) == false)
+            $("#report_line_report_salary").val(report_salary.toFixed(2));
+        else
+            $("#report_line_report_salary").val("");
+
+
+        var report_leave_cut = (parseFloat($("#report_line_report_basic").val(), 10)/26) * parseFloat($("#report_line_report_leave_count").val(), 10);
+
+        if(isNaN(report_leave_cut) == false)
+            $("#report_line_report_leave_cut").val(report_leave_cut.toFixed(2));
+        else
+            $("#report_line_report_leave_cut").val("");
+
+
+        var report_total = parseFloat($("#report_line_report_salary").val(), 10) - parseFloat($("#report_line_report_leave_cut").val(), 10) - parseFloat($("#report_line_report_loan_cut").val(), 10) - parseFloat($("#report_line_report_advance_cut").val(), 10) + parseFloat($("#report_line_report_allowance").val(), 10);
+
+        if(isNaN(report_total) == false)
+            $("#report_line_report_total").val(report_total.toFixed(2));
+        else
+            $("#report_line_report_total").val("");
+    }
+</script>

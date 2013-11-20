@@ -1,0 +1,31 @@
+<div class="row-fluid">
+  <label><strong class="alert-success">Leave Request</strong></label> 
+  <div class="hr hr32 hr-dotted"></div>
+
+  <p id="notice"><%= notice %></p>
+
+  <p class="text-info row-fluid">
+    <b class="span2">User:</b>
+    <%= @leave_request.user.name %>
+  </p>
+
+  <p class="text-info row-fluid">
+    <b class="span2">Date:</b>
+    <%= @leave_request.leave_at %>
+  </p>
+
+  <p class="text-info row-fluid">
+    <b class="span2">Reason:</b>
+    <%= @leave_request.reason %>
+  </p>
+
+  <p class="text-info row-fluid">
+    <b class="span2">Status:</b>
+    <%= @leave_request.status %>
+  </p>
+
+  <div class="form-actions">
+    <%= link_to 'Edit', edit_leave_request_path(@leave_request), :class => "btn btn-small btn-success" if can? :update, @leave_request %>
+    <%= link_to 'Back', leave_requests_path, :class => "btn btn-small" %>
+  </div>
+</div>

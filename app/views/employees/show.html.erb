@@ -1,0 +1,93 @@
+<div class="row-fluid">
+    <div class="span6">
+          <label><strong class="alert-success">Employee : <%= @employee.employee_name %></strong></label>
+    </div>
+    <div class="span6 center">
+        <%= link_to 'Back', employees_path, :class => "btn btn-small btn-success" %>
+        <%= link_to 'New Employee', new_employee_path, :class => "btn btn-small btn-success" if can? :create, Employee %>
+    </div>
+</div>
+
+<br />
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="tabbable">
+            <ul class="nav nav-tabs" id="myTab">
+                <li class="active">
+                    <a data-toggle="tab" href="#profile">
+                        Profile
+                    </a>
+                </li>
+
+                <li class="">
+                    <a data-toggle="tab" href="#status">
+                        Leave Status
+                    </a>
+                </li>
+
+                <li class="">
+                    <a data-toggle="tab" href="#request">
+                        Leave Request
+                    </a>
+                </li>
+
+                <li class="">
+                    <a data-toggle="tab" href="#memo">
+                        Memo
+                    </a>
+                </li>
+
+                <li class="">
+                    <a data-toggle="tab" href="#loan">
+                        Loan
+                    </a>
+                </li>
+
+                <li class="">
+                    <a data-toggle="tab" href="#advance">
+                        Advance/Credit
+                    </a>
+                </li>
+
+                <li class="">
+                    <a data-toggle="tab" href="#additional">
+                        OT Allowance/Off
+                    </a>
+                </li>
+
+            </ul>
+
+            <div class="tab-content">
+                <div id="profile" class="tab-pane active">
+                    <%= render :partial => "employees/profile" %>
+                </div>
+
+                <div id="status" class="tab-pane">
+                    <%= render :partial => "leave_statuses/statuses" %>
+                </div>
+
+                <div id="request" class="tab-pane">
+                    <%= render :partial => "leave_requests/requests" %>
+                </div>
+
+                <div id="memo" class="tab-pane">
+                    <%= render :partial => "memos/memos" %>
+                </div>
+
+                <div id="loan" class="tab-pane">
+                    <%= render :partial => "loans/loans" if @loans %>
+                </div>
+
+                <div id="advance" class="tab-pane">
+                    <%= render :partial => "advances/advances" if @advances || @previous_advances %>                    
+                </div>
+
+                <div id="additional" class="tab-pane">
+                    <%= render :partial => "worked_holidays/worked_holidays" if @worked_holidays %>
+                </div>
+                
+            </div>
+        </div>
+    </div><!--/span-->
+</div>

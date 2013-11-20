@@ -1,0 +1,13 @@
+development:
+  app_key: app_key
+  app_secret: app_secret
+  access_token: access_token
+  access_token_secret: access_token_secret
+  user_id: user_id
+  access_type: access_type
+production:
+  app_key: app_key
+  app_secret: app_secret
+  access_token: access_token
+  access_token_secret: access_token_secret
+  user_id: user_id
