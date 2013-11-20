@@ -2,7 +2,7 @@ h1. Simple HRM + LMS
 
 Uses Rails 3, Ruby 2.0, MySQL, Twitter Bootstrapper, Devise, Cancan, RoleModel etc.
 
-<a href="">Demo in Heroku</a>
+<a href="http://simple-hrm-lms.herokuapp.com" target="_blank">Demo in Heroku</a>
 
 Credentials : admin@hrm.com / 12345678
 
